@@ -6,6 +6,9 @@ document
 			let valor = parseFloat(input.value);
 			let color = valor >= 1 && valor <= 10 ? 'green' : 'red';
 			input.style.backgroundColor = color;
+			if (valor < 1 || valor > 10) {
+				alert('La nota debe estar entre 1 y 10');
+			}
 		}
 	});
 
@@ -14,11 +17,20 @@ function obtenerValorMateria(id) {
 }
 
 function calcularPromedio() {
-	let matematica = obtenerValorMateria('matematica');
-	let lengua = obtenerValorMateria('lengua');
-	let efsi = obtenerValorMateria('efsi');
+	let notas = {
+		matematica: obtenerValorMateria('matematica'),
+		lengua: obtenerValorMateria('lengua'),
+		efsi: obtenerValorMateria('efsi'),
+	};
 
-	let promedio = (matematica + lengua + efsi) / 3;
+	for (let nota of Object.values(notas)) {
+		if (nota < 1 || nota > 10) {
+			alert('Alguna nota está fuera del rango permitido');
+			return;
+		}
+	}
+
+	let promedio = (notas.matematica + notas.lengua + notas.efsi) / 3;
 	let resultadoDiv = document.getElementById('resultado');
 
 	resultadoDiv.innerHTML = 'El promedio del alumno es: ' + promedio.toFixed(2);
@@ -31,6 +43,13 @@ function mostrarMateriaMayorNota() {
 		lengua: obtenerValorMateria('lengua'),
 		efsi: obtenerValorMateria('efsi'),
 	};
+
+	for (let nota of Object.values(notas)) {
+		if (nota < 1 || nota > 10 || nota  === ''){
+			alert('Alguna nota está fuera del rango permitido');
+			return;
+		}
+	}
 
 	let maxNota = Math.max(...Object.values(notas));
 	let materias = [];
